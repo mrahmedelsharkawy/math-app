@@ -330,11 +330,10 @@
 </div>
 
 <script>
-    // إعدادات الربط المباشر مع GitHub (تأكد من مطابقة اسم المستودع لديك)
     const GITHUB_USERNAME = "mrahmedelsharkawy"; 
-    const REPO_NAME = "math-app"; // استبدله باسم المستودع الصحيح على حسابك
+    const REPO_NAME = "math-app"; 
     const FILE_PATH = "data.json"; 
-    const GITHUB_TOKEN = "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"; 
+    const GITHUB_TOKEN = "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"; // الرمز الجديد المحدث
 
     let students = JSON.parse(localStorage.getItem('mathAppV8')) || [];
     let currentStudentId = null;
@@ -433,7 +432,6 @@
         try {
             const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
             
-            // جلب الـ SHA الأحدث لتفادي أي خطأ في التعارض
             let getRes = await fetch(url, {
                 headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
             });
