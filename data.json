@@ -1,0 +1,48 @@
+{
+  "students": [
+    {
+      "id": 1786135049613,
+      "name": "خالد علي",
+      "stage": "ثانوي",
+      "grade": "الاول",
+      "course": "قدرات",
+      "classPrice": 150,
+      "studentPhone": "0531686",
+      "parentPhone": "664464",
+      "parentRelation": "أب",
+      "location": "google.com",
+      "classes": [
+        {
+          "date": "2026-08-07",
+          "time": "23:37"
+        },
+        {
+          "id": 1786136084787,
+          "date": "2026-08-06",
+          "time": "23:26"
+        }
+      ],
+      "payments": []
+    },
+    {
+      "id": 1786135221376,
+      "name": "kk",
+      "stage": "ثانوي",
+      "grade": "الاول",
+      "course": "قدرات أونلاين",
+      "classPrice": 100,
+      "studentPhone": "0531686",
+      "parentPhone": "",
+      "parentRelation": "",
+      "location": "",
+      "classes": [
+        {
+          "date": "2026-08-07",
+          "time": "23:59"
+        }
+      ],
+      "payments": []
+    }
+  ],
+  "teacherAvatar": ""
+}
