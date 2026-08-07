@@ -115,7 +115,7 @@
 
 <div class="container">
 
-    <!-- 1. الشاشة الرئيسية -->
+    <!-- الشاشة الرئيسية -->
     <div id="homeView" class="view active">
         <div class="card" style="background: linear-gradient(to bottom, #ffffff, #f1f2f6);">
             <div class="teacher-profile">
@@ -160,7 +160,7 @@
             <div id="monthCalendarContainer"></div>
         </div>
 
-        <!-- أزرار الربط السحابي المباشر مع GitHub في أسفل الصفحة الرئيسية فقط -->
+        <!-- المزامنة المباشرة مع GitHub -->
         <div class="card card-info" style="border-top-color: #2ed573;">
             <h2>☁️ المزامنة المباشرة مع GitHub</h2>
             <p id="syncStatus" style="font-size: 12px; color: #57606f; margin-bottom: 12px;">بياناتك مرتبطة بسيرفر GitHub مباشرة لتحديثها من أي جهاز.</p>
@@ -171,7 +171,7 @@
         </div>
     </div>
 
-    <!-- 2. صفحة الطلاب -->
+    <!-- صفحة الطلاب -->
     <div id="studentsView" class="view">
         <div class="card card-success">
             <h2 id="studentFormTitle">✨ إضافة طالب جديد</h2>
@@ -240,7 +240,7 @@
         </div>
     </div>
 
-    <!-- 3. صفحة الماليات -->
+    <!-- صفحة الماليات -->
     <div id="financeView" class="view">
         <div class="card card-warning">
             <h2>💰 التقارير المالية المخصصة</h2>
@@ -266,7 +266,7 @@
         </div>
     </div>
 
-    <!-- 4. ملف الطالب والتفاصيل -->
+    <!-- ملف الطالب والتفاصيل -->
     <div id="studentProfileView" class="view">
         <div class="card">
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -330,15 +330,15 @@
 </div>
 
 <script>
-    // إعدادات الربط المباشر مع GitHub (قم بتغييرها بما يناسب حسابك)
-    const GITHUB_USERNAME = "mrahmedelsharkawy"; // ضع اسم مستخدم حسابك هنا
-    const REPO_NAME = "math-app"; // ضع اسم مستودع المشروع هنا
-    const FILE_PATH = "data.json"; // اسم ملف البيانات على المستودع
-    const GITHUB_TOKEN = "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"; // ضع الرمز (Token) الذي أنشأته هنا
+    // إعدادات الربط المباشر مع GitHub (تأكد من مطابقة اسم المستودع لديك)
+    const GITHUB_USERNAME = "mrahmedelsharkawy"; 
+    const REPO_NAME = "math-app"; // استبدله باسم المستودع الصحيح على حسابك
+    const FILE_PATH = "data.json"; 
+    const GITHUB_TOKEN = "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"; 
 
     let students = JSON.parse(localStorage.getItem('mathAppV8')) || [];
     let currentStudentId = null;
-    let fileSha = ""; // ضروري لتحديث الملف على GitHub
+    let fileSha = ""; 
 
     window.addEventListener('DOMContentLoaded', () => {
         const savedAvatar = localStorage.getItem('teacherAvatarImg');
@@ -349,7 +349,6 @@
         if(document.getElementById('classDate')) document.getElementById('classDate').value = todayLocal;
         if(document.getElementById('paymentDate')) document.getElementById('paymentDate').value = todayLocal;
 
-        // جلب البيانات تلقائياً من GitHub عند فتح الموقع لأول مرة
         fetchDataFromGitHub(false);
     });
 
@@ -373,7 +372,6 @@
         }
     }
 
-    // دالة سحب البيانات التلقائية والمباشرة من سيرفر GitHub
     async function fetchDataFromGitHub(showAlert = false) {
         const statusText = document.getElementById("syncStatus");
         if(showAlert) statusText.innerText = "جاري جلب أحدث البيانات من سيرفر GitHub...";
@@ -389,7 +387,7 @@
 
             if(response.ok) {
                 let fileData = await response.json();
-                fileSha = fileData.sha; // حفظ رقم الـ SHA للتحديث اللاحق
+                fileSha = fileData.sha; 
                 let decodedContent = decodeURIComponent(escape(atob(fileData.content)));
                 let parsedData = JSON.parse(decodedContent);
 
@@ -409,7 +407,7 @@
                     }
                 }
             } else {
-                if(showAlert) statusText.innerText = "⚠️ لم يتم العثور على ملف data.json على المستودع.";
+                if(showAlert) statusText.innerText = "⚠️ لم يتم العثور على ملف data.json، سيتم إنشاؤه تلقائياً عند أول حفظ.";
             }
         } catch(err) {
             if(showAlert) {
@@ -419,7 +417,6 @@
         }
     }
 
-    // دالة حفظ ورفع البيانات مباشرة إلى سيرفر GitHub
     async function syncDataToGitHub() {
         const statusText = document.getElementById("syncStatus");
         statusText.innerText = "جاري حفظ وتحديث البيانات مباشرة على GitHub...";
@@ -436,7 +433,7 @@
         try {
             const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
             
-            // أولاً: جلب الـ SHA الأخير تجنباً لأخطاء التحديث
+            // جلب الـ SHA الأحدث لتفادي أي خطأ في التعارض
             let getRes = await fetch(url, {
                 headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
             });
@@ -445,7 +442,6 @@
                 fileSha = fileInfo.sha;
             }
 
-            // ثانياً: إرسال التحديث الجديد مباشرة للملف
             let response = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -455,7 +451,7 @@
                 body: JSON.stringify({
                     message: "Update database from mobile app automatically",
                     content: encodedContent,
-                    sha: fileSha
+                    sha: fileSha || undefined
                 })
             });
 
@@ -465,10 +461,11 @@
                 statusText.innerText = "✅ تم الحفظ وتحديث السيرفر على GitHub بنجاح!";
                 statusText.style.color = "green";
             } else {
-                throw new Error("فشل الرفع");
+                let errorData = await response.json();
+                throw new Error(errorData.message || "فشل الرفع");
             }
         } catch(err) {
-            statusText.innerText = "❌ حدث خطأ أثناء الحفظ على السيرفر.";
+            statusText.innerText = "❌ خطأ في الحفظ: " + err.message;
             statusText.style.color = "red";
         }
     }
@@ -520,7 +517,6 @@
 
     function saveData() { 
         localStorage.setItem('mathAppV8', JSON.stringify(students));
-        // يتم رفع التحديث للسيرفر تلقائياً عند أي تعديل لراحة البด
         syncDataToGitHub();
     }
 
